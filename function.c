@@ -81,8 +81,9 @@ void addEntry(Entry dictionary[], int *entryCount) {
     if (foundCount > 0) {
         printf("Entry already exists:\n");
         for (int i = 0; i < foundCount; i++) {
-            displayEntry(dictionary[foundIndices[i]]);
-        }
+        printf("Entry %d:\n", i + 1);
+        displayEntry(dictionary[foundIndices[i]]);
+         }
         printf("Is this a new entry? (yes/no): ");
         char response[10];
         scanf("%s", response);
@@ -102,22 +103,39 @@ void addEntry(Entry dictionary[], int *entryCount) {
 
     char addMore[10];
     do {
-        printf("Do you want to add another language-translation pair? (yes/no): ");
+        printf("Do you want to add another Entry? (yes/no): ");
         scanf("%s", addMore);
         if (strcmp(addMore, "yes") == 0) {
-            if (dictionary[*entryCount - 1].count < MAX_PAIRS) {
-                printf("Enter language: ");
-                scanf("%s", language);
-                printf("Enter translation: ");
-                scanf("%s", translation);
+            if (dictionary[*entryCount].count < MAX_PAIRS) {
+                    printf("Enter language: ");
+                    scanf("%s", language);
+                    printf("Enter translation: ");
+                    scanf("%s", translation);
 
-                int lastEntryIndex = *entryCount - 1;
-                strcpy(dictionary[lastEntryIndex].pairs[dictionary[lastEntryIndex].count].language, language);
-                strcpy(dictionary[lastEntryIndex].pairs[dictionary[lastEntryIndex].count].translation, translation);
-                dictionary[lastEntryIndex].count++;
-            } else {
-                printf("Entry already has maximum number of translation pairs.\n");
-                break;
+                    int foundIndices[MAX_ENTRIES];
+                    int foundCount = findEntry(dictionary, *entryCount, language, translation, foundIndices);
+
+                    if (foundCount > 0) {
+                    printf("Entry already exists:\n");
+                      for (int i = 0; i < foundCount; i++) {
+                        printf("Entry %d:\n", i + 1);
+                        displayEntry(dictionary[foundIndices[i]]);
+                    }
+                    printf("Is this a new entry? (yes/no): ");
+                    char response[10];
+                    scanf("%s", response);
+                    if (strcmp(response, "no") == 0) {
+                        return;
+                         }
+                     }
+
+                    strcpy(dictionary[*entryCount].pairs[0].language, language);
+                    strcpy(dictionary[*entryCount].pairs[0].translation, translation);
+                    dictionary[*entryCount].count = 1;
+                    (*entryCount)++;
+                } else {
+                    printf("Entry already has maximum number of translation pairs.\n");
+                    break;
             }
         }
     } while (strcmp(addMore, "yes") == 0);
