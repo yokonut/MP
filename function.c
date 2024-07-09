@@ -1,6 +1,7 @@
 #include "declaration.h"
 
-void displayMainMenu() {
+void displayMainMenu()
+{
 
     printf("=====================================\n");
     printf("        Welcome to the Dictionary    \n");
@@ -12,7 +13,8 @@ void displayMainMenu() {
     printf("Enter your choice: ");
 }
 
-void manageDataMenu() {
+void manageDataMenu()
+{
 
     printf("=====================================\n");
     printf("          Manage Data Menu           \n");
@@ -32,7 +34,8 @@ void manageDataMenu() {
     printf("Enter your choice: ");
 }
 
-void languageToolMenu() {
+void languageToolMenu()
+{
 
     printf("=====================================\n");
     printf("          Language Tool Menu         \n");
@@ -44,18 +47,23 @@ void languageToolMenu() {
     printf("Enter your choice: ");
 }
 
-
-void displayEntry(Entry entry) {
-    for (int i = 0; i < entry.count; i++) {
+void displayEntry(Entry entry)
+{
+    for (int i = 0; i < entry.count; i++)
+    {
         printf("%d. Language: %s, Translation: %s\n", i + 1, entry.pairs[i].language, entry.pairs[i].translation);
     }
 }
-//check if entry already in dictionary
-int findEntry(Entry dictionary[], int entryCount, char *language, char *translation, int foundIndices[]) {
+// check if entry already in dictionary
+int findEntry(Entry dictionary[], int entryCount, char *language, char *translation, int foundIndices[])
+{
     int foundCount = 0;
-    for (int i = 0; i < entryCount; i++) {
-        for (int j = 0; j < dictionary[i].count; j++) {
-            if (strcmp(dictionary[i].pairs[j].language, language) == 0 && strcmp(dictionary[i].pairs[j].translation, translation) == 0) {
+    for (int i = 0; i < entryCount; i++)
+    {
+        for (int j = 0; j < dictionary[i].count; j++)
+        {
+            if (strcmp(dictionary[i].pairs[j].language, language) == 0 && strcmp(dictionary[i].pairs[j].translation, translation) == 0)
+            {
                 foundIndices[foundCount++] = i;
                 break;
             }
@@ -64,9 +72,10 @@ int findEntry(Entry dictionary[], int entryCount, char *language, char *translat
     return foundCount;
 }
 
-//add entry
-void addEntry(Entry dictionary[], int *entryCount) {
-  
+// add entry
+void addEntry(Entry dictionary[], int *entryCount)
+{
+
     char language[MAX_LANG_LEN];
     char translation[MAX_TRANS_LEN];
 
@@ -78,70 +87,85 @@ void addEntry(Entry dictionary[], int *entryCount) {
     int foundIndices[MAX_ENTRIES];
     int foundCount = findEntry(dictionary, *entryCount, language, translation, foundIndices);
 
-    if (foundCount > 0) {
+    if (foundCount > 0)
+    {
         printf("Entry already exists:\n");
-        for (int i = 0; i < foundCount; i++) {
-        printf("Entry %d:\n", i + 1);
-        displayEntry(dictionary[foundIndices[i]]);
-         }
+        for (int i = 0; i < foundCount; i++)
+        {
+            printf("Entry %d:\n", i + 1);
+            displayEntry(dictionary[foundIndices[i]]);
+        }
         printf("Is this a new entry? (yes/no): ");
         char response[10];
         scanf("%s", response);
-        if (strcmp(response, "no") == 0) {
+        if (strcmp(response, "no") == 0)
+        {
             return;
         }
     }
 
-    if (*entryCount < MAX_ENTRIES) {
+    if (*entryCount < MAX_ENTRIES)
+    {
         strcpy(dictionary[*entryCount].pairs[0].language, language);
         strcpy(dictionary[*entryCount].pairs[0].translation, translation);
         dictionary[*entryCount].count = 1;
         (*entryCount)++;
-    } else {
+    }
+    else
+    {
         printf("Dictionary is full. Cannot add more entries.\n");
     }
 
     char addMore[10];
-    do {
+    do
+    {
         printf("Do you want to add another Entry? (yes/no): ");
         scanf("%s", addMore);
-        if (strcmp(addMore, "yes") == 0) {
-            if (dictionary[*entryCount].count < MAX_PAIRS) {
-                    printf("Enter language: ");
-                    scanf("%s", language);
-                    printf("Enter translation: ");
-                    scanf("%s", translation);
+        if (strcmp(addMore, "yes") == 0)
+        {
+            if (dictionary[*entryCount].count < MAX_PAIRS)
+            {
+                printf("Enter language: ");
+                scanf("%s", language);
+                printf("Enter translation: ");
+                scanf("%s", translation);
 
-                    int foundIndices[MAX_ENTRIES];
-                    int foundCount = findEntry(dictionary, *entryCount, language, translation, foundIndices);
+                int foundIndices[MAX_ENTRIES];
+                int foundCount = findEntry(dictionary, *entryCount, language, translation, foundIndices);
 
-                    if (foundCount > 0) {
+                if (foundCount > 0)
+                {
                     printf("Entry already exists:\n");
-                      for (int i = 0; i < foundCount; i++) {
+                    for (int i = 0; i < foundCount; i++)
+                    {
                         printf("Entry %d:\n", i + 1);
                         displayEntry(dictionary[foundIndices[i]]);
                     }
                     printf("Is this a new entry? (yes/no): ");
                     char response[10];
                     scanf("%s", response);
-                    if (strcmp(response, "no") == 0) {
+                    if (strcmp(response, "no") == 0)
+                    {
                         return;
-                         }
-                     }
+                    }
+                }
 
-                    strcpy(dictionary[*entryCount].pairs[0].language, language);
-                    strcpy(dictionary[*entryCount].pairs[0].translation, translation);
-                    dictionary[*entryCount].count = 1;
-                    (*entryCount)++;
-                } else {
-                    printf("Entry already has maximum number of translation pairs.\n");
-                    break;
+                strcpy(dictionary[*entryCount].pairs[0].language, language);
+                strcpy(dictionary[*entryCount].pairs[0].translation, translation);
+                dictionary[*entryCount].count = 1;
+                (*entryCount)++;
+            }
+            else
+            {
+                printf("Entry already has maximum number of translation pairs.\n");
+                break;
             }
         }
     } while (strcmp(addMore, "yes") == 0);
 }
-//add translation
-void addTranslation(Entry dictionary[], int entryCount) {
+// add translation
+void addTranslation(Entry dictionary[], int entryCount)
+{
 
     char language[MAX_LANG_LEN];
     char translation[MAX_TRANS_LEN];
@@ -154,29 +178,36 @@ void addTranslation(Entry dictionary[], int entryCount) {
     int foundIndices[MAX_ENTRIES];
     int foundCount = findEntry(dictionary, entryCount, language, translation, foundIndices);
 
-    if (foundCount == 0) {
+    if (foundCount == 0)
+    {
         printf("No entry found with the given language and translation pair. Please add the entry first.\n");
         return;
     }
 
     printf("Entries found:\n");
-    for (int i = 0; i < foundCount; i++) {
+    for (int i = 0; i < foundCount; i++)
+    {
         printf("Entry %d:\n", i + 1);
         displayEntry(dictionary[foundIndices[i]]);
     }
 
     int entryIndex;
-    if (foundCount == 1) {
+    if (foundCount == 1)
+    {
         entryIndex = foundIndices[0];
-    } else {
+    }
+    else
+    {
         printf("Enter the number of the entry to add a translation to: ");
         scanf("%d", &entryIndex);
         entryIndex = foundIndices[entryIndex - 1];
     }
 
     char addMore[10];
-    do {
-        if (dictionary[entryIndex].count < MAX_PAIRS) {
+    do
+    {
+        if (dictionary[entryIndex].count < MAX_PAIRS)
+        {
             printf("Enter new language: ");
             scanf("%s", language);
             printf("Enter new translation: ");
@@ -185,7 +216,9 @@ void addTranslation(Entry dictionary[], int entryCount) {
             strcpy(dictionary[entryIndex].pairs[dictionary[entryIndex].count].language, language);
             strcpy(dictionary[entryIndex].pairs[dictionary[entryIndex].count].translation, translation);
             dictionary[entryIndex].count++;
-        } else {
+        }
+        else
+        {
             printf("Entry already has maximum number of translation pairs.\n");
             break;
         }
@@ -195,30 +228,134 @@ void addTranslation(Entry dictionary[], int entryCount) {
     } while (strcmp(addMore, "yes") == 0);
 }
 
+/*
+void modifyEntry(Entry dictionary[], int entryCount)
+{
+    int i;
+    int entryNum, pairNum;
+    for (i = 0; i < entryCount; i++)
+    {
+        printf("Entry %d:\n", i + 1);
+        displayEntry(dictionary[i]);
+    }
 
-void manageData(Entry dictionary[], int *entryCount) {
-    int manageChoice;
+    do
+    {
+        printf("Enter the entry number to modify (1 to %d): ", entryCount);
+        scanf("%d", &entryNum);
+        if (entryNum < 1 || entryNum > entryCount)
+        {
+            printf("Invalid entry number.\n");
+            return;
+        }
+    } while (entryNum < 1 || entryNum > entryCount);
+
+    printf("Entry %d:\n", entryNum);
+    for (int j = 0; j < dictionary[entryNum - 1].count; j++)
+    {
+        printf("  %d. %s - %s\n", j + 1, dictionary[entryNum - 1].pairs[j].language, dictionary[entryNum - 1].pairs[j].translation);
+    }
+
+    do
+    {
+        printf("Enter the pair number to modify (1 to %d, or 0 to finish): ", dictionary[entryNum - 1].count);
+        scanf("%d", &pairNum);
+
+        if (pairNum == 0)
+        {
+            break;
+        }
+
+        if (pairNum < 1 || pairNum > dictionary[entryNum - 1].count)
+        {
+            printf("Invalid pair number.\n");
+        }
+    } while (pairNum < 1 || pairNum > dictionary[entryNum - 1].count);
+
+    int choice;
+    printf("What do you want to modify? (1 for language, 2 for translation): ");
+    scanf("%d", &choice);
+
+    switch (choice)
+    {
+    case 1:
+        printf("Enter new language: ");
+        scanf("%s", dictionary[entryNum - 1].pairs[pairNum].language);
+        break;
+    case 2:
+        printf("Enter new language: ");
+        scanf("%s", dictionary[entryNum - 1].pairs[pairNum].language);
+        break;
+    default:
+        printf("Invalid choice\n");
+    }
+}
+*/
+
+/*
+void viewAllEntries(Entry dictionary[], int entryCount) {
+   
+
+    if (entryCount == 0) {
+        printf("No entries available.\n");
+        return;
+    }
+
+    int currentEntry = 0;
+    char choice;
     do {
+        clearScreen();
+        printf("Entry %d of %d:\n", currentEntry + 1, entryCount);
+        sortEntryLanguages(&dictionary[currentEntry]);
+        displayEntry(dictionary[currentEntry]);
+
+        printf("\nOptions: (N)ext, (P)revious, e(X)it: ");
+        scanf(" %c", &choice);
+
+        if (choice == 'N' || choice == 'n') {
+            if (currentEntry < entryCount - 1) {
+                currentEntry++;
+            } else {
+                printf("This is the last entry.\n");
+            }
+        } else if (choice == 'P' || choice == 'p') {
+            if (currentEntry > 0) {
+                currentEntry--;
+            } else {
+                printf("This is the first entry.\n");
+            }
+        } else if (choice != 'X' && choice != 'x') {
+            printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 'X' && choice != 'x');
+}*/
+
+void manageData(Entry dictionary[], int *entryCount)
+{
+    int manageChoice;
+    do
+    {
         manageDataMenu();
         scanf("%d", &manageChoice);
-        switch (manageChoice) {
-            case 1:
-                addEntry(dictionary, entryCount);
-                break;
-            case 2:
-                addTranslation(dictionary, *entryCount);
-                break;
-            case 3:
-                // Implement Remove Entry functionality here
-                break;
-            case 4:
-                // Implement View All Entries functionality here
-                break;
-            case 5:
-                return; // Back to Main Menu
-            default:
-                printf("Invalid choice. Please try again.\n");
-                break;
+        switch (manageChoice)
+        {
+        case 1:
+            addEntry(dictionary, entryCount);
+            break;
+        case 2:
+            addTranslation(dictionary, *entryCount);
+            break;
+        case 3:
+            // Implement Remove Entry functionality here
+            break;
+        case 4:
+            // Implement View All Entries functionality here
+            break;
+        case 5:
+            return; // Back to Main Menu
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
         }
     } while (manageChoice != 5);
 }
